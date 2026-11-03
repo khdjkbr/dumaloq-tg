@@ -1,0 +1,20 @@
+{
+  "name": "Dumaloq TG",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "vscode",
+  "postCreateCommand": "python -m pip install -r requirements.txt",
+  "secrets": {
+    "BOT_TOKEN": {
+      "description": "Telegram bot token from @BotFather"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python"
+      ]
+    }
+  }
+}
