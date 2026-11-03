@@ -155,7 +155,7 @@ async def main():
     load_dotenv(Path(__file__).with_name(".env"))
     token = os.getenv("BOT_TOKEN", "").strip()
     if not token or token == "replace_with_token_from_BotFather":
-        raise SystemExit("Укажи BOT_TOKEN в файле .env (см. .env.example).")
+        raise SystemExit("Не найден BOT_TOKEN. Добавь Codespaces secret BOT_TOKEN с доступом к этому репозиторию и перезапусти Codespace.")
     ffmpeg = os.getenv("FFMPEG_BIN", "ffmpeg")
     ffprobe = os.getenv("FFPROBE_BIN", "ffprobe")
     for binary in (ffmpeg, ffprobe):
@@ -175,6 +175,8 @@ async def main():
             BotCommand(command="help", description="Помощь"),
             BotCommand(command="id", description="Мой Telegram ID"),
         ])
+        me = await bot.get_me()
+        print(f"Telegram подключён: https://t.me/{me.username}. Запускаю обработку сообщений…", flush=True)
         task = asyncio.create_task(worker())
         try:
             # Do not silently delete an existing webhook or discard pending messages.
