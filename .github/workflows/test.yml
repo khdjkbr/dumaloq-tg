@@ -25,10 +25,14 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-      - name: Install FFmpeg
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
-      - name: Install Python dependencies
-        run: python -m pip install -r requirements.txt
+      - name: Validate startup scripts and Codespaces image
+        run: |
+          bash -n scripts/setup.sh scripts/start.sh
+          docker manifest inspect mcr.microsoft.com/devcontainers/universal:6-noble > /dev/null
+      - name: Prepare environment using the Codespaces setup script
+        run: |
+          bash scripts/setup.sh
+          echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
       - name: Check syntax and imports
         run: |
           python -m compileall -q bot.py media.py tests
